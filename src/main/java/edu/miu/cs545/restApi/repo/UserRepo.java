@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User,Long> {
@@ -14,4 +15,7 @@ public interface UserRepo extends JpaRepository<User,Long> {
 
     @Query("select u from User u JOIN u.posts p where p.title = :title")
     List<User> usersWithSameTitle(String title);
+
+    Optional<User> findByUserName(String username);
+
 }

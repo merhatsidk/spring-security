@@ -12,6 +12,7 @@ import edu.miu.cs545.restApi.repo.UserRepo;
 import edu.miu.cs545.restApi.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
