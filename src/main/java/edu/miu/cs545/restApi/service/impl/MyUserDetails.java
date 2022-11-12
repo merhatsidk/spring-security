@@ -14,13 +14,13 @@ public class MyUserDetails implements UserDetails {
 
     private String username;
     private String password;
-    private boolean isAvailable;
+    private Boolean isAvailable;
     private List<Role> roles;
 
     public MyUserDetails(User user) {
         this.username = user.getUserName();
         this.password = user.getPassword();
-        this.isAvailable = user.isAvailable();
+        this.isAvailable = user.getIsAvailable();
         this.roles = user.getRoles();
     }
 

@@ -1,6 +1,7 @@
 package edu.miu.cs545.restApi.service.impl;
 
 import edu.miu.cs545.restApi.dto.request.LoginRequest;
+import edu.miu.cs545.restApi.dto.request.RefreshTokenRequest;
 import edu.miu.cs545.restApi.dto.response.LoginResponse;
 import edu.miu.cs545.restApi.service.AuthService;
 import edu.miu.cs545.restApi.util.JwtUtil;
@@ -31,7 +32,14 @@ public class AuthServiceImpl implements AuthService {
 
         UserDetails UserDetails = myUserDetailsService.loadUserByUsername(loginRequest.getUsername());
         String accessToken = jwtUtil.generateToken(UserDetails);
-        return new LoginResponse(accessToken);
+        String refreshToken = jwtUtil.generateRefreshToken(loginRequest.getUsername());
 
+        return new LoginResponse(accessToken,refreshToken);
+
+    }
+
+    @Override
+    public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        return null;
     }
 }

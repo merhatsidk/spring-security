@@ -12,5 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserDto {private Long id;
     private String name;
+//    private String password;
+    private Boolean isAvailable;
     private List<Post> posts;
 }

@@ -8,18 +8,20 @@ import edu.miu.cs545.restApi.dto.PostResponse;
 import edu.miu.cs545.restApi.dto.UserDto;
 import edu.miu.cs545.restApi.dto.UserRequest;
 import edu.miu.cs545.restApi.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1/users") @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
 
 
@@ -39,6 +41,7 @@ public class UserController {
     }
     @PostMapping
     public void saveUser(@RequestBody UserRequest userRequest){
+        userRequest.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         userService.save(userRequest);
     }
 

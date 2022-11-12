@@ -30,7 +30,7 @@ public class User {
     private Long id;
     private String userName;
     private String password;
-    private boolean isAvailable;
+    private Boolean isAvailable;
 
     @OneToMany(cascade = CascadeType.ALL)
 //    @Fetch(value = FetchMode.SELECT)

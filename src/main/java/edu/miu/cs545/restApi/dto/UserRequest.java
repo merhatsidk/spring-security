@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
-    private String name;
+    private String userName;
+    private String password;
+    private Boolean isAvailable;
 //    private List<Post> posts;
 
 }
