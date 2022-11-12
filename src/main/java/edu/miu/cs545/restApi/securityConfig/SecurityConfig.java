@@ -1,10 +1,7 @@
 package edu.miu.cs545.restApi.securityConfig;
 
-import edu.miu.cs545.restApi.filter.JwtFilter;
-import edu.miu.cs545.restApi.service.impl.MyUserDetailsService;
+import edu.miu.cs545.restApi.filter.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -24,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -37,14 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/authenticate").permitAll()
+                .antMatchers("/api/v1/authenticate","/api/v1/authenticate/refreshToken").permitAll()
+//                .antMatchers("/api/v1/refreshToken").permitAll()
                 .antMatchers("/api/v1/admin").hasRole("ADMIN")
                 .antMatchers("api/v1/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
 
     }

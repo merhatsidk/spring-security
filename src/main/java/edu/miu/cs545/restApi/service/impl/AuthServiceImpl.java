@@ -40,6 +40,22 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        String refreshToken = refreshTokenRequest.getRefreshToken();
+        boolean isValidRefreshToken = jwtUtil.validateToken(refreshToken);
+        if(isValidRefreshToken){
+            boolean isExpired =  jwtUtil.isTokenExpired(refreshTokenRequest.getAccessToken());
+            if (isExpired){
+                log.info("the access token is expired and is about to renewed! ");
+                String username = jwtUtil.getSubject(refreshTokenRequest.getRefreshToken());
+                UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+                String renewedAccessToken = jwtUtil.doGenerateToken(username);
+                return new LoginResponse(renewedAccessToken,refreshToken);
+            }else {
+                log.info("token is not expired!");
+                return new LoginResponse(refreshTokenRequest.getAccessToken(),refreshTokenRequest.getRefreshToken());
+            }
+        }
         return null;
     }
+
 }

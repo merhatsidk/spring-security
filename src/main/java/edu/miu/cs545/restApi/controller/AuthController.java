@@ -25,6 +25,7 @@ public class AuthController {
 
     @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request){
+        System.out.println("------------------------------------");
         return ResponseEntity.ok().body(authService.refreshToken(request));
     }
 }
