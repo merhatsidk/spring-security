@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
                 return new LoginResponse(refreshTokenRequest.getAccessToken(),refreshTokenRequest.getRefreshToken());
             }
         }
-        return null;
+        return new LoginResponse();
     }
 
 }
